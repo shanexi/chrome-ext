@@ -108,13 +108,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   openSidePanel.addEventListener('click', function() {
-    chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT }, function() {
-      if (chrome.runtime.lastError) {
-        showStatus('无法打开侧边栏: ' + chrome.runtime.lastError.message, 'error');
-      } else {
-        showStatus('侧边栏已打开', 'success');
-        window.close();
-      }
+    chrome.windows.getCurrent(function(window) {
+      chrome.sidePanel.open({ windowId: window.id }, function() {
+        if (chrome.runtime.lastError) {
+          showStatus('无法打开侧边栏: ' + chrome.runtime.lastError.message, 'error');
+        } else {
+          showStatus('侧边栏已打开', 'success');
+          setTimeout(() => window.close(), 500);
+        }
+      });
     });
   });
 });
