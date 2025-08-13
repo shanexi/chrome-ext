@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Demo Extension - Side Panel</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      margin: 0 0 5px 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 12px;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .section-header {
+      background: #f1f3f4;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .section-body {
+      padding: 16px;
+    }
+    
+    .tool-button {
+      display: block;
+      width: 100%;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      font-size: 13px;
+    }
+    
+    .tool-button:hover {
+      background: #f8f9fa;
+      border-color: #4CAF50;
+      transform: translateY(-1px);
+    }
+    
+    .tool-button:active {
+      transform: translateY(0);
+    }
+    
+    .tool-button:last-child {
+      margin-bottom: 0;
+    }
+    
+    .tool-button .title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+    
+    .tool-button .desc {
+      color: #666;
+      font-size: 11px;
+    }
+    
+    .status-panel {
+      background: #e3f2fd;
+      border: 1px solid #2196f3;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 16px;
+      font-size: 12px;
+    }
+    
+    .status-panel.success {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+    
+    .status-panel.error {
+      background: #ffebee;
+      border-color: #f44336;
+      color: #c62828;
+    }
+    
+    .page-info {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    .page-info strong {
+      color: #333;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      float: right;
+      margin-top: -2px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    
+    .shortcuts {
+      font-size: 11px;
+      color: #888;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+    }
+    
+    .shortcut-key {
+      background: #f1f3f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+      margin: 0 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🔧 Demo Extension</h1>
+    <p>Side Panel Dashboard</p>
+  </div>
+  
+  <div class="content">
+    <div class="section">
+      <div class="section-header">页面工具</div>
+      <div class="section-body">
+        <button class="tool-button" id="highlightBtn">
+          <div class="title">🎨 高亮文本</div>
+          <div class="desc">高亮页面中的所有文本内容</div>
+        </button>
+        
+        <button class="tool-button" id="countBtn">
+          <div class="title">📊 元素统计</div>
+          <div class="desc">统计页面HTML元素数量</div>
+        </button>
+        
+        <button class="tool-button" id="colorBtn">
+          <div class="title">🎨 背景颜色</div>
+          <div class="desc">随机改变页面背景颜色</div>
+        </button>
+        
+        <button class="tool-button" id="clearBtn">
+          <div class="title">🧹 清除效果</div>
+          <div class="desc">清除所有应用的页面效果</div>
+        </button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header">
+        页面美化
+        <label class="toggle-switch">
+          <input type="checkbox" id="beautifyToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="section-body">
+        <div class="page-info">
+          自动美化当前页面，包括按钮样式、链接效果和动画过渡。
+        </div>
+        <div class="shortcuts">
+          快捷键: <span class="shortcut-key">Ctrl+Shift+D</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header">页面信息</div>
+      <div class="section-body">
+        <div class="page-info" id="pageInfo">
+          正在加载页面信息...
+        </div>
+      </div>
+    </div>
+    
+    <div id="statusPanel" class="status-panel" style="display: none;">
+      <div id="statusMessage"></div>
+    </div>
+  </div>
+  
+  <script src="sidepanel.js"></script>
+</body>
+</html>

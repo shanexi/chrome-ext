@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const countBtn = document.getElementById('countBtn');
   const changeColorBtn = document.getElementById('changeColorBtn');
   const clearBtn = document.getElementById('clearBtn');
+  const openSidePanel = document.getElementById('openSidePanel');
   const status = document.getElementById('status');
 
   function showStatus(message, type = 'info') {
@@ -103,6 +104,17 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       return `已清除所有效果 (${highlightedElements.length} 个高亮)`;
+    });
+  });
+
+  openSidePanel.addEventListener('click', function() {
+    chrome.sidePanel.open({ windowId: chrome.windows.WINDOW_ID_CURRENT }, function() {
+      if (chrome.runtime.lastError) {
+        showStatus('无法打开侧边栏: ' + chrome.runtime.lastError.message, 'error');
+      } else {
+        showStatus('侧边栏已打开', 'success');
+        window.close();
+      }
     });
   });
 });
