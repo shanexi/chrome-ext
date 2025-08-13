@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+    
+    #status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .success {
+      background-color: #dff0d8;
+      color: #3c763d;
+      border: 1px solid #d6e9c6;
+    }
+    
+    .info {
+      background-color: #d9edf7;
+      color: #31708f;
+      border: 1px solid #bce8f1;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>Demo Extension</h2>
+    <p>一个简单的 Chrome 扩展示例</p>
+  </div>
+  
+  <button id="highlightBtn" class="button">高亮当前页面文本</button>
+  <button id="countBtn" class="button">统计页面元素</button>
+  <button id="changeColorBtn" class="button">改变背景颜色</button>
+  <button id="clearBtn" class="button">清除所有效果</button>
+  
+  <div id="status"></div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
