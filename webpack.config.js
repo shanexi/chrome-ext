@@ -18,9 +18,9 @@ module.exports = {
     liveReload: false,
   },
   entry: {
-    popup: './src/popup.jsx',
+    popup: './src/popup.tsx',
     content: './src/content.js',
-    sidepanel: './src/sidepanel.jsx'
+    sidepanel: './src/sidepanel.tsx'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -30,12 +30,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-react']
+            presets: ['@babel/preset-react', '@babel/preset-typescript']
           }
         }
       },
@@ -70,6 +70,6 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   }
 };
