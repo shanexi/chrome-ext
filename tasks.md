@@ -14,8 +14,8 @@
 
 ---
 
-突然感觉 chrome extension 很麻烦
+chrome extension 是否有办法打开一个固定的侧边栏？
 
 ---
 
-chrome extension 是否有办法打开一个固定的侧边栏？
+改成一个 webpack 项目
