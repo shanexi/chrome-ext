@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './popup.css';
+import './styles.css';
 
 const Popup: React.FC = () => {
   const handleOpenSidePanel = (): void => {
@@ -17,12 +17,15 @@ const Popup: React.FC = () => {
   };
 
   return (
-    <div className="popup-container">
-      <div className="header">
-        <h2>ShellAgent</h2>
+    <div className="w-80 p-6 bg-white">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">ShellAgent</h2>
       </div>
       
-      <button onClick={handleOpenSidePanel} className="button side-panel-btn">
+      <button 
+        onClick={handleOpenSidePanel} 
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+      >
         🔧 打开侧边栏面板
       </button>
     </div>
