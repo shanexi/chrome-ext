@@ -1,32 +1,28 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const highlightBtn = document.getElementById('highlightBtn');
-  const countBtn = document.getElementById('countBtn');
-  const colorBtn = document.getElementById('colorBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const beautifyToggle = document.getElementById('beautifyToggle');
-  const statusPanel = document.getElementById('statusPanel');
-  const statusMessage = document.getElementById('statusMessage');
-  const pageInfo = document.getElementById('pageInfo');
+import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import './sidepanel.css';
 
-  function showStatus(message, type = 'info') {
-    statusMessage.textContent = message;
-    statusPanel.className = `status-panel ${type}`;
-    statusPanel.style.display = 'block';
-    
+const SidePanel = () => {
+  const [status, setStatus] = useState({ message: '', type: '', visible: false });
+  const [pageInfo, setPageInfo] = useState('正在加载页面信息...');
+  const [beautifyEnabled, setBeautifyEnabled] = useState(false);
+
+  const showStatus = (message, type = 'info') => {
+    setStatus({ message, type, visible: true });
     setTimeout(() => {
-      statusPanel.style.display = 'none';
+      setStatus(prev => ({ ...prev, visible: false }));
     }, 3000);
-  }
+  };
 
-  function getCurrentTab(callback) {
+  const getCurrentTab = (callback) => {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       if (tabs[0]) {
         callback(tabs[0]);
       }
     });
-  }
+  };
 
-  function executeScript(func, args = []) {
+  const executeScript = (func, args = []) => {
     getCurrentTab(function(tab) {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -40,26 +36,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-  }
+  };
 
-  function updatePageInfo() {
+  const updatePageInfo = () => {
     getCurrentTab(function(tab) {
       const url = new URL(tab.url);
       const domain = url.hostname;
       const protocol = url.protocol;
-      
-      executeScript(function() {
-        const stats = {
-          title: document.title,
-          elements: document.querySelectorAll('*').length,
-          images: document.querySelectorAll('img').length,
-          links: document.querySelectorAll('a').length,
-          forms: document.querySelectorAll('form').length,
-          scripts: document.querySelectorAll('script').length,
-          paragraphs: document.querySelectorAll('p').length
-        };
-        return stats;
-      }, []);
       
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -78,30 +61,44 @@ document.addEventListener('DOMContentLoaded', function() {
       }, function(results) {
         if (results && results[0] && results[0].result) {
           const stats = results[0].result;
-          pageInfo.innerHTML = `
-            <strong>标题:</strong> ${stats.title || 'N/A'}<br>
-            <strong>域名:</strong> ${domain}<br>
-            <strong>协议:</strong> ${protocol}<br>
-            <strong>总元素:</strong> ${stats.elements}<br>
-            <strong>图片:</strong> ${stats.images} | <strong>链接:</strong> ${stats.links}<br>
-            <strong>表单:</strong> ${stats.forms} | <strong>脚本:</strong> ${stats.scripts}<br>
-            <strong>段落:</strong> ${stats.paragraphs}<br>
-            ${stats.loadTime ? `<strong>加载时间:</strong> ${stats.loadTime}ms` : ''}
-          `;
+          setPageInfo(`
+            标题: ${stats.title || 'N/A'}
+            域名: ${domain}
+            协议: ${protocol}
+            总元素: ${stats.elements}
+            图片: ${stats.images} | 链接: ${stats.links}
+            表单: ${stats.forms} | 脚本: ${stats.scripts}
+            段落: ${stats.paragraphs}
+            ${stats.loadTime ? `加载时间: ${stats.loadTime}ms` : ''}
+          `);
         } else {
-          pageInfo.innerHTML = `
-            <strong>标题:</strong> ${tab.title}<br>
-            <strong>URL:</strong> ${domain}<br>
-            <strong>协议:</strong> ${protocol}<br>
-            <em>无法获取详细页面信息</em>
-          `;
+          setPageInfo(`
+            标题: ${tab.title}
+            URL: ${domain}
+            协议: ${protocol}
+            无法获取详细页面信息
+          `);
         }
       });
     });
-  }
+  };
 
-  // 高亮文本功能
-  highlightBtn.addEventListener('click', function() {
+  const checkBeautifyStatus = () => {
+    getCurrentTab(function(tab) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: function() {
+          return !!document.getElementById('demo-extension-styles');
+        }
+      }, function(results) {
+        if (results && results[0]) {
+          setBeautifyEnabled(results[0].result);
+        }
+      });
+    });
+  };
+
+  const handleHighlight = () => {
     executeScript(function() {
       const textNodes = [];
       const walker = document.createTreeWalker(
@@ -135,10 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       return `已高亮 ${count} 个文本节点`;
     });
-  });
+  };
 
-  // 元素统计功能
-  countBtn.addEventListener('click', function() {
+  const handleCount = () => {
     executeScript(function() {
       const elements = {
         '段落 (p)': document.querySelectorAll('p').length,
@@ -159,10 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       return `总计 ${total} 个主要元素\n${details}`;
     });
-  });
+  };
 
-  // 背景颜色功能
-  colorBtn.addEventListener('click', function() {
+  const handleChangeColor = () => {
     const colors = ['#ffebcd', '#e6f3ff', '#f0fff0', '#fff0f5', '#f5f5dc', '#ffe4e1', '#e0ffff'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     
@@ -170,36 +165,30 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.style.backgroundColor = color;
       return `背景颜色已改为 ${color}`;
     }, [randomColor]);
-  });
+  };
 
-  // 清除效果功能
-  clearBtn.addEventListener('click', function() {
+  const handleClear = () => {
     executeScript(function() {
-      // 清除背景颜色
       document.body.style.backgroundColor = '';
       
-      // 清除高亮
       const highlightedElements = document.querySelectorAll('span[data-extension-highlight]');
       highlightedElements.forEach(span => {
         const textNode = document.createTextNode(span.textContent);
         span.parentElement.replaceChild(textNode, span);
       });
       
-      // 清除美化效果
       const extensionStyles = document.querySelectorAll('#demo-extension-styles, #demo-extension-animations');
       extensionStyles.forEach(style => style.remove());
       
       return `已清除所有效果 (${highlightedElements.length + extensionStyles.length} 项)`;
     });
-  });
+  };
 
-  // 页面美化切换
-  beautifyToggle.addEventListener('change', function() {
-    const isEnabled = this.checked;
+  const handleBeautifyToggle = (checked) => {
+    setBeautifyEnabled(checked);
     
-    if (isEnabled) {
+    if (checked) {
       executeScript(function() {
-        // 检查是否已经有美化样式
         if (document.getElementById('demo-extension-styles')) {
           return '页面美化已经启用';
         }
@@ -267,42 +256,122 @@ document.addEventListener('DOMContentLoaded', function() {
         return '页面美化未启用';
       });
     }
-  });
+  };
 
-  // 检查当前页面美化状态
-  function checkBeautifyStatus() {
-    getCurrentTab(function(tab) {
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: function() {
-          return !!document.getElementById('demo-extension-styles');
-        }
-      }, function(results) {
-        if (results && results[0]) {
-          beautifyToggle.checked = results[0].result;
-        }
-      });
-    });
-  }
+  useEffect(() => {
+    updatePageInfo();
+    checkBeautifyStatus();
 
-  // 初始化
-  updatePageInfo();
-  checkBeautifyStatus();
-
-  // 监听标签页变化
-  chrome.tabs.onActivated.addListener(function() {
-    setTimeout(() => {
-      updatePageInfo();
-      checkBeautifyStatus();
-    }, 100);
-  });
-
-  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-    if (changeInfo.status === 'complete') {
+    const handleTabActivated = () => {
       setTimeout(() => {
         updatePageInfo();
         checkBeautifyStatus();
       }, 100);
-    }
-  });
-});
+    };
+
+    const handleTabUpdated = (tabId, changeInfo) => {
+      if (changeInfo.status === 'complete') {
+        setTimeout(() => {
+          updatePageInfo();
+          checkBeautifyStatus();
+        }, 100);
+      }
+    };
+
+    chrome.tabs.onActivated.addListener(handleTabActivated);
+    chrome.tabs.onUpdated.addListener(handleTabUpdated);
+
+    return () => {
+      chrome.tabs.onActivated.removeListener(handleTabActivated);
+      chrome.tabs.onUpdated.removeListener(handleTabUpdated);
+    };
+  }, []);
+
+  const formatPageInfo = (info) => {
+    return info.split('\n').map((line, index) => {
+      const [label, value] = line.split(': ');
+      return (
+        <div key={index}>
+          <strong>{label}:</strong> {value}
+        </div>
+      );
+    });
+  };
+
+  return (
+    <div className="sidepanel-container">
+      <div className="header">
+        <h1>🔧 Demo Extension</h1>
+        <p>Side Panel Dashboard</p>
+      </div>
+      
+      <div className="content">
+        <div className="section">
+          <div className="section-header">页面工具</div>
+          <div className="section-body">
+            <button className="tool-button" onClick={handleHighlight}>
+              <div className="title">🎨 高亮文本</div>
+              <div className="desc">高亮页面中的所有文本内容</div>
+            </button>
+            
+            <button className="tool-button" onClick={handleCount}>
+              <div className="title">📊 元素统计</div>
+              <div className="desc">统计页面HTML元素数量</div>
+            </button>
+            
+            <button className="tool-button" onClick={handleChangeColor}>
+              <div className="title">🎨 背景颜色</div>
+              <div className="desc">随机改变页面背景颜色</div>
+            </button>
+            
+            <button className="tool-button" onClick={handleClear}>
+              <div className="title">🧹 清除效果</div>
+              <div className="desc">清除所有应用的页面效果</div>
+            </button>
+          </div>
+        </div>
+        
+        <div className="section">
+          <div className="section-header">
+            页面美化
+            <label className="toggle-switch">
+              <input 
+                type="checkbox" 
+                checked={beautifyEnabled}
+                onChange={(e) => handleBeautifyToggle(e.target.checked)}
+              />
+              <span className="slider"></span>
+            </label>
+          </div>
+          <div className="section-body">
+            <div className="page-info">
+              自动美化当前页面，包括按钮样式、链接效果和动画过渡。
+            </div>
+            <div className="shortcuts">
+              快捷键: <span className="shortcut-key">Ctrl+Shift+D</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="section">
+          <div className="section-header">页面信息</div>
+          <div className="section-body">
+            <div className="page-info">
+              {formatPageInfo(pageInfo)}
+            </div>
+          </div>
+        </div>
+        
+        {status.visible && (
+          <div className={`status-panel ${status.type}`}>
+            <div>{status.message}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const container = document.getElementById('sidepanel-root');
+const root = createRoot(container);
+root.render(<SidePanel />);

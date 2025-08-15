@@ -5,14 +5,32 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    popup: './src/popup.js',
+    popup: './src/popup.jsx',
     content: './src/content.js',
-    sidepanel: './src/sidepanel.js'
+    sidepanel: './src/sidepanel.jsx'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     clean: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react']
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   plugins: [
     new CopyWebpackPlugin({
@@ -39,6 +57,6 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.jsx']
   }
 };

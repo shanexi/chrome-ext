@@ -1,21 +1,18 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const highlightBtn = document.getElementById('highlightBtn');
-  const countBtn = document.getElementById('countBtn');
-  const changeColorBtn = document.getElementById('changeColorBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const openSidePanel = document.getElementById('openSidePanel');
-  const status = document.getElementById('status');
+import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import './popup.css';
 
-  function showStatus(message, type = 'info') {
-    status.textContent = message;
-    status.className = type;
+const Popup = () => {
+  const [status, setStatus] = useState({ message: '', type: '' });
+
+  const showStatus = (message, type = 'info') => {
+    setStatus({ message, type });
     setTimeout(() => {
-      status.textContent = '';
-      status.className = '';
+      setStatus({ message: '', type: '' });
     }, 3000);
-  }
+  };
 
-  function executeScript(func, args = []) {
+  const executeScript = (func, args = []) => {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       chrome.scripting.executeScript({
         target: { tabId: tabs[0].id },
@@ -29,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-  }
+  };
 
-  highlightBtn.addEventListener('click', function() {
+  const handleHighlight = () => {
     executeScript(function() {
       const textNodes = [];
       const walker = document.createTreeWalker(
@@ -60,9 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       return `已高亮 ${textNodes.length} 个文本节点`;
     });
-  });
+  };
 
-  countBtn.addEventListener('click', function() {
+  const handleCount = () => {
     executeScript(function() {
       const elements = {
         '段落 (p)': document.querySelectorAll('p').length,
@@ -81,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       return `总计 ${total} 个元素 (${details})`;
     });
-  });
+  };
 
-  changeColorBtn.addEventListener('click', function() {
+  const handleChangeColor = () => {
     const colors = ['#ffebcd', '#e6f3ff', '#f0fff0', '#fff0f5', '#f5f5dc'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     
@@ -91,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.style.backgroundColor = color;
       return `背景颜色已改为 ${color}`;
     }, [randomColor]);
-  });
+  };
 
-  clearBtn.addEventListener('click', function() {
+  const handleClear = () => {
     executeScript(function() {
       document.body.style.backgroundColor = '';
       
@@ -105,9 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       return `已清除所有效果 (${highlightedElements.length} 个高亮)`;
     });
-  });
+  };
 
-  openSidePanel.addEventListener('click', function() {
+  const handleOpenSidePanel = () => {
     chrome.windows.getCurrent(function(window) {
       chrome.sidePanel.open({ windowId: window.id }, function() {
         if (chrome.runtime.lastError) {
@@ -118,5 +115,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-  });
-});
+  };
+
+  return (
+    <div className="popup-container">
+      <div className="header">
+        <h2>Demo Extension</h2>
+        <p>一个简单的 Chrome 扩展示例</p>
+      </div>
+      
+      <button onClick={handleHighlight} className="button">
+        高亮当前页面文本
+      </button>
+      <button onClick={handleCount} className="button">
+        统计页面元素
+      </button>
+      <button onClick={handleChangeColor} className="button">
+        改变背景颜色
+      </button>
+      <button onClick={handleClear} className="button">
+        清除所有效果
+      </button>
+      
+      <hr style={{ margin: '20px 0', border: 'none', borderTop: '1px solid #eee' }} />
+      
+      <button onClick={handleOpenSidePanel} className="button side-panel-btn">
+        🔧 打开侧边栏面板
+      </button>
+      
+      {status.message && (
+        <div className={`status ${status.type}`}>
+          {status.message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const container = document.getElementById('popup-root');
+const root = createRoot(container);
+root.render(<Popup />);
