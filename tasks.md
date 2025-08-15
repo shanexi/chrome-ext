@@ -1,21 +1,8 @@
-如果要给 notion 开发 extension，是用 chrome extension ？还是 notion extension
-1. chrome extension 作为 UI 容器
-2. 如果需要和 notion 交互，走 notion API
-3. 更新走 chrome store
+notion 添加 button
+button click 发送一个 webhook
+webhook 再通知 chrome extension
+有点绕 
 
+还有一种方式是识别当前 notion，增加监听
+这样就不用集成 webhook 了
 
----
-
-帮我生成一个 chrome extension demo 项目
-
----
-
-教我怎么发布到 chrome store
-
----
-
-chrome extension 是否有办法打开一个固定的侧边栏？
-
----
-
-改成一个 webpack 项目
