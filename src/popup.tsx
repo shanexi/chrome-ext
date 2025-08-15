@@ -5,14 +5,15 @@ import './styles.css';
 const Popup: React.FC = () => {
   const handleOpenSidePanel = (): void => {
     chrome.windows.getCurrent((window: chrome.windows.Window) => {
-      chrome.sidePanel.open({ windowId: window.id }, () => {
-        if (chrome.runtime.lastError) {
-          console.error('无法打开侧边栏:', chrome.runtime.lastError.message);
-        } else {
-          chrome.windows.update(window.id!, { focused: true });
-          window.close();
-        }
-      });
+      if (window.id) {
+        chrome.sidePanel.open({ windowId: window.id }, () => {
+          if (chrome.runtime.lastError) {
+            console.error('无法打开侧边栏:', chrome.runtime.lastError.message);
+          } else {
+            chrome.windows.update(window.id!, { focused: true });
+          }
+        });
+      }
     });
   };
 
