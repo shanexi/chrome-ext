@@ -1,4 +1,4 @@
-console.log('Demo Extension content script loaded');
+console.log('ShellAgent content script loaded');
 
 let isExtensionActive = false;
 

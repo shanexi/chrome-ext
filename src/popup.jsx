@@ -111,7 +111,7 @@ const Popup = () => {
           showStatus('无法打开侧边栏: ' + chrome.runtime.lastError.message, 'error');
         } else {
           showStatus('侧边栏已打开', 'success');
-          setTimeout(() => window.close(), 500);
+          chrome.windows.update(window.id, { focused: true });
         }
       });
     });
@@ -120,7 +120,7 @@ const Popup = () => {
   return (
     <div className="popup-container">
       <div className="header">
-        <h2>Demo Extension</h2>
+        <h2>ShellAgent</h2>
         <p>一个简单的 Chrome 扩展示例</p>
       </div>
       
@@ -141,6 +141,10 @@ const Popup = () => {
       
       <button onClick={handleOpenSidePanel} className="button side-panel-btn">
         🔧 打开侧边栏面板
+      </button>
+
+      <button onClick={() => window.close()} className="button close-btn">
+        ✕ 关闭
       </button>
       
       {status.message && (

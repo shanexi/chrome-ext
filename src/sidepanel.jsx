@@ -301,7 +301,7 @@ const SidePanel = () => {
   return (
     <div className="sidepanel-container">
       <div className="header">
-        <h1>🔧 Demo Extension</h1>
+        <h1>ShellAgent</h1>
         <p>Side Panel Dashboard</p>
       </div>
       

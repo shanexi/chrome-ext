@@ -3,7 +3,20 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
+  devtool: 'cheap-module-source-map',
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 9000,
+    devMiddleware: {
+      writeToDisk: true,
+    },
+    hot: false,
+    liveReload: false,
+  },
   entry: {
     popup: './src/popup.jsx',
     content: './src/content.js',
