@@ -54,7 +54,8 @@
     "react-dom": "^19.1.1",
     "reflect-metadata": "^0.2.2",
     "style-loader": "^4.0.0",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "@virtuoso.dev/message-list": "1.9.15"
   },
   "pnpm": {
     "patchedDependencies": {

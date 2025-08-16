@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 patchedDependencies:
   '@virtuoso.dev/message-list@1.9.15':
-    hash: itbwxq67zdcngmgbmuhpt6e33q
+    hash: 5a3qc73he2qanmv5uiinsg3poq
     path: patches/@virtuoso.dev__message-list@1.9.15.patch
 
 specifiers:
@@ -23,6 +23,7 @@ specifiers:
   '@types/chrome': ^0.1.4
   '@types/react': ^19.1.10
   '@types/react-dom': ^19.1.7
+  '@virtuoso.dev/message-list': 1.9.15
   babel-loader: ^10.0.0
   copy-webpack-plugin: ^13.0.1
   css-loader: ^7.1.2
@@ -54,6 +55,7 @@ dependencies:
   '@myshell-run/common-def': file:.yalc/@myshell-run/common-def_c4wq2t7zqgrhfq23cjercsu3oe
   '@myshell-run/common-ui': file:.yalc/@myshell-run/common-ui_etdqrjqfhydiexeaifx2isxpeq
   '@paralleldrive/cuid2': 2.2.2
+  '@virtuoso.dev/message-list': 1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza
   babel-loader: 10.0.0_mlq2w24ovccw2zzwyvf7z5k5qa
   css-loader: 7.1.2_webpack@5.101.2
   edix: file:.yalc/edix
@@ -990,7 +992,7 @@ packages:
       react-dom: 19.1.1_react@19.1.1
     dev: false
 
-  /@virtuoso.dev/message-list/1.9.15_itbwxq67zdcngmgbmuhpt6e33q_6qpiazawufkd5n22ferrdsggza:
+  /@virtuoso.dev/message-list/1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza:
     resolution: {integrity: sha512-zk7IY8ESfOAG7xJntvQEttA/Y2u2UGIBihVKUcwDyfbK+b9pncs8cBOLw1zXP9IKPtAUCyyVPRY+G3RT73RIEw==}
     peerDependencies:
       react: '>= 18 || >= 19'
@@ -3612,7 +3614,7 @@ packages:
       '@uppy/thumbnail-generator': 4.1.1_@uppy+core@4.4.4
       '@uppy/utils': 6.1.3
       '@uppy/xhr-upload': 4.3.3_@uppy+core@4.4.4
-      '@virtuoso.dev/message-list': 1.9.15_itbwxq67zdcngmgbmuhpt6e33q_6qpiazawufkd5n22ferrdsggza
+      '@virtuoso.dev/message-list': 1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza
       ajv: 8.17.1
       ajv-errors: 3.0.0_ajv@8.17.1
       clsx: 2.1.1
@@ -3685,7 +3687,7 @@ packages:
       '@uppy/thumbnail-generator': 4.1.1_@uppy+core@4.4.4
       '@uppy/utils': 6.1.3
       '@uppy/xhr-upload': 4.3.3_@uppy+core@4.4.4
-      '@virtuoso.dev/message-list': 1.9.15_itbwxq67zdcngmgbmuhpt6e33q_6qpiazawufkd5n22ferrdsggza
+      '@virtuoso.dev/message-list': 1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza
       ajv: 8.17.1
       ajv-errors: 3.0.0_ajv@8.17.1
       clsx: 2.1.1
@@ -3764,7 +3766,7 @@ packages:
       '@uppy/thumbnail-generator': 4.1.1_@uppy+core@4.4.4
       '@uppy/utils': 6.1.3
       '@uppy/xhr-upload': 4.3.3_@uppy+core@4.4.4
-      '@virtuoso.dev/message-list': 1.9.15_itbwxq67zdcngmgbmuhpt6e33q_6qpiazawufkd5n22ferrdsggza
+      '@virtuoso.dev/message-list': 1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza
       ajv: 8.17.1
       ajv-errors: 3.0.0_ajv@8.17.1
       clsx: 2.1.1
@@ -3852,7 +3854,7 @@ packages:
       '@uppy/thumbnail-generator': 4.1.1_@uppy+core@4.4.4
       '@uppy/utils': 6.1.3
       '@uppy/xhr-upload': 4.3.3_@uppy+core@4.4.4
-      '@virtuoso.dev/message-list': 1.9.15_itbwxq67zdcngmgbmuhpt6e33q_6qpiazawufkd5n22ferrdsggza
+      '@virtuoso.dev/message-list': 1.9.15_5a3qc73he2qanmv5uiinsg3poq_6qpiazawufkd5n22ferrdsggza
       ajv: 8.17.1
       ajv-errors: 3.0.0_ajv@8.17.1
       clsx: 2.1.1
