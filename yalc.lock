@@ -1,0 +1,29 @@
+{
+  "version": "v1",
+  "packages": {
+    "@myshell-run/agent-ui": {
+      "signature": "83ea3d978d8c84cb7e60089df7d2a23c",
+      "file": true
+    },
+    "@myshell-run/agent-chat-input-plugins": {
+      "signature": "ef6c4872aaf567f83874d4295bb998f4",
+      "file": true
+    },
+    "@myshell-run/agent-message-plugins": {
+      "signature": "7c2087c50f8ec1e143ca7c530a8f659d",
+      "file": true
+    },
+    "@myshell-run/common-def": {
+      "signature": "ae16d05d7b05c9d8ee3b3ef1cefd46cc",
+      "file": true
+    },
+    "@myshell-run/common-ui": {
+      "signature": "d25fe4eec9cdb6643f824c074452c65f",
+      "file": true
+    },
+    "edix": {
+      "signature": "dfbf45f66593497e54b2e8c42590ee4a",
+      "file": true
+    }
+  }
+}

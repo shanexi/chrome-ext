@@ -11,7 +11,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "pnpm": ">= 7.33.7 <8"
+  },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.28.0",
+    "@babel/plugin-transform-class-properties": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/typography": "^0.5.16",
@@ -30,10 +36,28 @@
   "dependencies": {
     "@babel/core": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
+    "@myshell-run/agent-chat-input-plugins": "file:.yalc/@myshell-run/agent-chat-input-plugins",
+    "@myshell-run/agent-message-plugins": "file:.yalc/@myshell-run/agent-message-plugins",
+    "@myshell-run/agent-ui": "file:.yalc/@myshell-run/agent-ui",
+    "@myshell-run/common-def": "file:.yalc/@myshell-run/common-def",
+    "@myshell-run/common-ui": "file:.yalc/@myshell-run/common-ui",
+    "@paralleldrive/cuid2": "^2.2.2",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
+    "edix": "file:.yalc/edix",
+    "inversify": "^6.2.1",
+    "inversify-react": "^1.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^4.1.12",
+    "mobx": "^6.13.6",
+    "mobx-react-lite": "^4.1.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@virtuoso.dev/message-list@1.9.15": "patches/@virtuoso.dev__message-list@1.9.15.patch"
+    }
   }
 }

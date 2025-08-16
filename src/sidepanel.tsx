@@ -1,79 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import './styles.css';
+import { createRoot } from "react-dom/client";
+import "./styles.css";
 
-interface RowData {
-  name?: string;
-  type?: string;
-  description?: string;
-}
+import {
+  AgentChatInputHandlers,
+  AgentChatInputPlugin,
+  agentChatInputPluginsModule,
+  ChatInputActionPlugin,
+  ChatInputContextPlugin,
+  ChatInputStructuredInputPlugin,
+  ChatInputUploadPlugin,
+} from "@myshell-run/agent-chat-input-plugins";
+import { agentMessagePluginsModule } from "@myshell-run/agent-message-plugins";
+import { UploadEndpoint } from "@myshell-run/common-def";
+import { ChatCommonHandlers, commonUIModule } from "@myshell-run/common-ui";
+import { Container, ContainerModule, interfaces } from "inversify";
+import { agentUIModule } from "@myshell-run/agent-ui";
+import { ShellAgentChatModel } from "./sidepanel/shellagent-chat.model";
+import { Provider as InversifyProvider } from "inversify-react";
+import { ShellAgentChat } from "./sidepanel/shellagent-chat";
 
-const SidePanel: React.FC = () => {
-  const [rowData, setRowData] = useState<RowData | null>(null);
+const mod = new ContainerModule(
+  (
+    bind: interfaces.Bind,
+    unbind: interfaces.Unbind,
+    isBound: interfaces.IsBound,
+    rebind: interfaces.Rebind
+  ) => {
+    bind(UploadEndpoint).toConstantValue("http://localhost:3333/api/upload");
+    bind(ShellAgentChatModel).toSelf().inSingletonScope();
+    rebind(AgentChatInputHandlers).toDynamicValue((ctx) => {
+      return ctx.container.get(ShellAgentChatModel);
+    });
+    bind(ChatCommonHandlers).toDynamicValue((ctx) => {
+      return ctx.container.get(ShellAgentChatModel);
+    });
+    rebind<AgentChatInputPlugin[]>(AgentChatInputPlugin).toConstantValue([
+      ChatInputContextPlugin,
+      ChatInputUploadPlugin,
+      ChatInputStructuredInputPlugin,
+      ChatInputActionPlugin,
+    ]);
+  }
+);
 
-  useEffect(() => {
-    const loadRowData = async () => {
-      try {
-        const result = await chrome.storage.local.get(['currentRowData']);
-        if (result.currentRowData) {
-          setRowData(result.currentRowData);
-        }
-      } catch (error) {
-        console.error('Failed to load row data:', error);
-      }
-    };
+const container = new Container();
+container.load(agentUIModule);
+container.load(commonUIModule);
+container.load(agentMessagePluginsModule);
+container.load(agentChatInputPluginsModule);
 
-    loadRowData();
+container.load(mod);
 
-    const handleStorageChange = (changes: any) => {
-      if (changes.currentRowData) {
-        setRowData(changes.currentRowData.newValue);
-      }
-    };
-
-    chrome.storage.local.onChanged.addListener(handleStorageChange);
-
-    return () => {
-      chrome.storage.local.onChanged.removeListener(handleStorageChange);
-    };
-  }, []);
-
-  return (
-    <div className="p-6 h-full bg-gray-50">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">ShellAgent</h1>
-      
-      {rowData ? (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">当前行数据</h2>
-          
-          {rowData.name && (
-            <div className="mb-2">
-              <span className="font-medium text-gray-700">名称: </span>
-              <span className="text-gray-600">{rowData.name}</span>
-            </div>
-          )}
-          
-          {rowData.type && (
-            <div className="mb-2">
-              <span className="font-medium text-gray-700">类型: </span>
-              <span className="text-gray-600">{rowData.type}</span>
-            </div>
-          )}
-          
-          {rowData.description && (
-            <div className="mb-2">
-              <span className="font-medium text-gray-700">描述: </span>
-              <span className="text-gray-600">{rowData.description}</span>
-            </div>
-          )}
-        </div>
-      ) : (
-        <p className="text-gray-600">点击页面上的 button 以显示行数据</p>
-      )}
-    </div>
-  );
-};
-
-const container = document.getElementById('sidepanel-root') as HTMLElement;
-const root = createRoot(container);
-root.render(<SidePanel />);
+const root = createRoot(
+  document.getElementById("sidepanel-root") as HTMLElement
+);
+root.render(
+  <InversifyProvider container={container}>
+    <ShellAgentChat />
+  </InversifyProvider>
+);
