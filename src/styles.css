@@ -1,1 +1,147 @@
-@import "tailwindcss";
+/* @import "tailwindcss"; */
+@import 'tailwindcss' source(none);
+
+/* FIXME 需要手动指定依赖目录 */
+@source '.';
+
+@plugin "@tailwindcss/typography";
+@plugin 'tailwindcss-animate';
+
+
+/* font 没有被转换成功 手动添加 */
+@layer components {
+    .display-lg {
+        line-height: 36px;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .display-xs {
+        line-height: 26px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .display-md-emphasized {
+        /* Display/md/Emphasized */
+        /* font-family: 'PP Telegraf'; */
+        /* font-family: "Space Grotesk"; */
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 32px;
+        /* 133.333% */
+    }
+
+    .display-sm-semibold {
+        /* Display/sm/Semibold */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 590;
+        line-height: 28px;
+    }
+
+    .heading-h2 {
+        /* Heading/h4 */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+    }
+
+    .heading-h4 {
+        /* Heading/h4 */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 510;
+        line-height: 24px;
+    }
+
+    .text-sm-medium {
+        /* Text/sm/Medium */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 14px;
+        font-style: normal;
+        /* font-weight: 510; */
+        font-weight: 500;
+        line-height: 20px;
+    }
+
+    .text-sm-regular {
+        /* Text/sm/Regular */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .text-lg-medium {
+        /* Text/lg/Medium */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 510;
+        line-height: 24px;
+    }
+
+    .text-lg-regular {
+        /* Text/lg/Regular */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+
+    .description-lg-regular {
+        /* Description/lg/Regular */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
+    .description-lg-medium {
+        /* Description/lg/Regular */
+        /* font-family: 'SF Pro'; */
+        /* font-family: "Inter"; */
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px;
+    }
+
+    .special-20 {
+        /* 20px/Special */
+        /* font-family: 'PP Telegraf'; */
+        /* font-family: "Space Grotesk"; */
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px;
+    }
+
+    .body-lg-regular {
+        /* Body/lg/Regular */
+        /* font-family: "Mona Sans"; */
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+}
+
+@import "./design-system-v2.new.css";

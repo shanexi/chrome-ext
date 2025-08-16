@@ -25,7 +25,7 @@ const Popup: React.FC = () => {
       
       <button 
         onClick={handleOpenSidePanel} 
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+        className="w-full bg-Cr-Bg-normal-secondary-alt-v2 hover:bg-Cr-Bg-normal-tertiary-active-v2 text-Cr-Fg-subtle-v2 font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
       >
         🔧 打开侧边栏面板
       </button>
