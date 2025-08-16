@@ -1,19 +1,25 @@
 console.log('ShellAgent content script loaded');
 
-function isNotionButton(element) {
+interface RowData {
+  name?: string;
+  type?: string;
+  description?: string;
+}
+
+function isNotionButton(element: Element): boolean {
   const span = element.querySelector('span');
   return element.getAttribute('role') === 'button' && 
-         element.style.cursor === 'pointer' &&
-         element.style.display === 'inline-flex' &&
+         (element as HTMLElement).style.cursor === 'pointer' &&
+         (element as HTMLElement).style.display === 'inline-flex' &&
          span?.textContent?.trim() === 'button';
 }
 
-function extractRowData(buttonElement) {
+function extractRowData(buttonElement: Element): RowData | null {
   const tableRow = buttonElement.closest('.notion-table-view-row');
   if (!tableRow) return null;
   
   const cells = Array.from(tableRow.querySelectorAll('.notion-table-view-cell'));
-  const rowData = {};
+  const rowData: RowData = {};
   
   cells.forEach((cell, index) => {
     const textContent = cell.textContent?.trim();
@@ -36,8 +42,8 @@ function extractRowData(buttonElement) {
   return Object.keys(rowData).length > 0 ? rowData : null;
 }
 
-function handleButtonClick(event) {
-  const target = event.target;
+function handleButtonClick(event: Event): void {
+  const target = event.target as Element;
   const buttonElement = target.closest('[role="button"]');
   
   if (buttonElement && isNotionButton(buttonElement)) {
@@ -56,7 +62,15 @@ function handleButtonClick(event) {
 
 document.addEventListener('click', handleButtonClick, true);
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+interface ContentMessageRequest {
+  action: string;
+}
+
+interface PageDataResponse {
+  url: string;
+}
+
+chrome.runtime.onMessage.addListener((request: ContentMessageRequest, _sender: chrome.runtime.MessageSender, sendResponse: (response?: PageDataResponse) => void) => {
   if (request.action === 'getPageData') {
     sendResponse({ url: window.location.href });
   }
