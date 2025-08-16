@@ -1,4 +1,4 @@
-import { FloatingBall } from './content/floating-ball';
+import { FloatingBallRoot } from './content/floating-ball-root';
 import { NotionHandler } from './content/notion-handler';
 
 console.log('ShellAgent content script loaded');
@@ -19,4 +19,4 @@ chrome.runtime.onMessage.addListener((request: ContentMessageRequest, _sender: c
 });
 
 const notionHandler = new NotionHandler();
-const floatingBall = new FloatingBall();
+const floatingBallRoot = new FloatingBallRoot();

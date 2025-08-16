@@ -1,32 +1,23 @@
-import { createRoot } from 'react-dom/client';
-import FloatingBallComponent from './FloatingBallComponent';
+import React from "react";
+import KittyIcon from "../../icons/kitty.svg";
 
-export class FloatingBall {
-  private root: ReturnType<typeof createRoot> | null = null;
-  private container: HTMLElement | null = null;
+const FloatingBall: React.FC = () => {
+  const handleClick = () => {
+    console.log("Floating ball clicked");
+    chrome.runtime.sendMessage({
+      action: "openSidePanel",
+      data: { source: "floatingBall" },
+    });
+  };
 
-  constructor() {
-    this.createElement();
-  }
+  return (
+    <div
+      className="fixed right-[15px] top-1/2 -translate-y-1/2 w-[36px] h-[36] cursor-pointer z-[10000] select-none pointer-events-auto"
+      onClick={handleClick}
+    >
+      <KittyIcon className="max-w-full max-h-full fill-white" />
+    </div>
+  );
+};
 
-  private createElement(): void {
-    this.container = document.createElement('div');
-    this.container.id = 'shell-agent-floating-ball-root';
-    document.body.appendChild(this.container);
-    
-    this.root = createRoot(this.container);
-    this.root.render(<FloatingBallComponent />);
-  }
-
-  public destroy(): void {
-    if (this.root) {
-      this.root.unmount();
-      this.root = null;
-    }
-    
-    if (this.container && this.container.parentNode) {
-      this.container.parentNode.removeChild(this.container);
-      this.container = null;
-    }
-  }
-}
+export default FloatingBall;
