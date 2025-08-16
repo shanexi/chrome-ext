@@ -20,9 +20,9 @@ module.exports = {
   },
   entry: {
     popup: './src/popup.tsx',
-    content: './src/content.js',
+    content: './src/content.ts',
     sidepanel: './src/sidepanel.tsx',
-    background: './src/background.js'
+    background: './src/background.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
