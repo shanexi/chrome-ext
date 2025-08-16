@@ -43,19 +43,20 @@
     "@myshell-run/common-def": "file:.yalc/@myshell-run/common-def",
     "@myshell-run/common-ui": "file:.yalc/@myshell-run/common-ui",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@virtuoso.dev/message-list": "1.9.15",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
     "edix": "file:.yalc/edix",
     "inversify": "^6.2.1",
     "inversify-react": "^1.2.0",
+    "lucide-react": "^0.539.0",
     "mobx": "^6.13.6",
     "mobx-react-lite": "^4.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "reflect-metadata": "^0.2.2",
     "style-loader": "^4.0.0",
-    "tailwindcss": "^4.1.12",
-    "@virtuoso.dev/message-list": "1.9.15"
+    "tailwindcss": "^4.1.12"
   },
   "pnpm": {
     "patchedDependencies": {

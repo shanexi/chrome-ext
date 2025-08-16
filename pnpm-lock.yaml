@@ -31,6 +31,7 @@ specifiers:
   html-webpack-plugin: ^5.6.4
   inversify: ^6.2.1
   inversify-react: ^1.2.0
+  lucide-react: ^0.539.0
   mini-css-extract-plugin: ^2.9.4
   mobx: ^6.13.6
   mobx-react-lite: ^4.1.0
@@ -61,6 +62,7 @@ dependencies:
   edix: file:.yalc/edix
   inversify: 6.2.2_reflect-metadata@0.2.2
   inversify-react: 1.2.0_z4sdpao2vw3czb3ejp35o4pgcm
+  lucide-react: 0.539.0_react@19.1.1
   mobx: 6.13.6
   mobx-react-lite: 4.1.0_mb6fqzjwyknltxmzlmwyz5wjx4
   react: 19.1.1
@@ -2100,6 +2102,14 @@ packages:
 
   /lucide-react/0.509.0_react@19.1.1:
     resolution: {integrity: sha512-xCJHn6Uh5qF6PGml25vveCTrHJZcqS1G1MVzWZK54ZQsOiCVJk4fwY3oyo5EXS2S+aqvTpWYIfJN+PesJ0quxg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
+      react: 19.1.1
+    dev: false
+
+  /lucide-react/0.539.0_react@19.1.1:
+    resolution: {integrity: sha512-VVISr+VF2krO91FeuCrm1rSOLACQUYVy7NQkzrOty52Y8TlTPcXcMdQFj9bYzBgXbWCiywlwSZ3Z8u6a+6bMlg==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
     dependencies:
